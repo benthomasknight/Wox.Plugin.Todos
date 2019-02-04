@@ -1,8 +1,9 @@
 Wox.Plugin.Macros
 --------------------------
-[![Build status](https://ci.appveyor.com/api/projects/status/hbaa5n2oo940lwyl/branch/master?svg=true)](https://ci.appveyor.com/project/caoyue/wox-plugin-todos/branch/master)
+[![Build status](https://ci.appveyor.com/api/projects/status/sq3ux931c86q9qux?svg=true)](https://ci.appveyor.com/project/benthomasknight/wox-plugin-todos)
 
-A simple macro app for [Wox](https://github.com/Wox-launcher/W
+
+A simple macro app for [Wox](https://github.com/Wox-launcher/Wox)
 
 ### usage
 - type `td -h` to view supported commands
