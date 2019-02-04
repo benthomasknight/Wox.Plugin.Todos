@@ -52,6 +52,7 @@ namespace Wox.Plugin.Macros
             Func<Macro, string> subTitleFormatter = null,
             Func<ActionContext, Macro, bool> itemAction = null)
         {
+            // Search the list of macros for the items that match the passed function.
             return ToResults(_macroList.Where(func), subTitleFormatter, itemAction);
         }
 
@@ -165,6 +166,7 @@ namespace Wox.Plugin.Macros
             Func<Macro, string> subTitleFormatter = null,
             Func<ActionContext, Macro, bool> itemAction = null)
         {
+            // Converts the macros to a result list
             var results = macros.OrderByDescending(t => t.CreatedTime)
                 .Select(t => new Result
                 {

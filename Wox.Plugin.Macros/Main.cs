@@ -16,6 +16,7 @@ namespace Wox.Plugin.Macros
 
         public Main()
         {
+            // Setup the local storage for macros
             _storage = new PluginJsonStorage<Settings>();
             _setting = _storage.Load();
         }
@@ -23,8 +24,6 @@ namespace Wox.Plugin.Macros
         #region Query
         public List<Result> Query(Query query)
         {
-            _macros.Reload();
-
             _macros.ActionKeyword = query.ActionKeyword;
             var help = new Help(_macros.Context, query);
 
@@ -38,6 +37,7 @@ namespace Wox.Plugin.Macros
                 return Search(query.Search);
             }
 
+            // Find the actual operator used
             MacroCommand op;
             if (!Enum.TryParse(query.FirstSearch.TrimStart('-'), true, out op))
             {
@@ -63,6 +63,7 @@ namespace Wox.Plugin.Macros
                             }
                         };
                     }
+                    // Setup the removal on click of option. Searched both the key and content
                     var results = _macros.Find(
                         t => t.Key.IndexOf(query.SecondToEndSearch, StringComparison.OrdinalIgnoreCase) >= 0 || t.Content.IndexOf(query.SecondToEndSearch, StringComparison.OrdinalIgnoreCase) >= 0,
                         t2 => "click to remove macro",
@@ -74,6 +75,7 @@ namespace Wox.Plugin.Macros
                     return results;
                 case MacroCommand.A:
                     return new List<Result> {
+                        // Adds a query to memory. the full command to get here is <command> <operation> <key> <macro>
                         AddResult(query.SecondSearch, string.Join(" ", query.Search.Split(' ').Where((a,b) => b >= 2)))
                     };
                 case MacroCommand.L:
@@ -120,6 +122,7 @@ namespace Wox.Plugin.Macros
                 null,
                 (c, macro) =>
                 {
+                    // Actually changes the query when this macro is clicked
                     _context.API.ChangeQuery(macro.Content, true);
                     return false;
                 });
