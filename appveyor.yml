@@ -11,9 +11,9 @@ assembly_info:
 before_build:
 - ps: nuget restore
 build:
-  project: Wox.Plugin.Todos.sln
+  project: Wox.Plugin.Macros.sln
 after_build:
-  - ps: cd Wox.Plugin.Todos\bin\Release; 7z a Wox.Plugin.Todos.zip
+  - ps: cd Wox.Plugin.Macros\bin\Release; 7z a Wox.Plugin.Macros.zip
 artifacts:
-- path: 'Wox.Plugin.Todos\bin\Release\Wox.Plugin.Todos.zip'
-  name: Wox.Plugin.Todos
+- path: 'Wox.Plugin.Macros\bin\Release\Wox.Plugin.Macros.zip'
+  name: Wox.Plugin.Macros
