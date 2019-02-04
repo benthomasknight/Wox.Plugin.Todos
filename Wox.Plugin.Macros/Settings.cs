@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Wox.Plugin.Todos
+namespace Wox.Plugin.Macros
 {
     public class Settings
     {

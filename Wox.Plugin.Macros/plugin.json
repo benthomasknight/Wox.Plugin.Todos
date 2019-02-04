@@ -1,0 +1,12 @@
+{
+    "ID":"af7ec81b848d4d9fa239a7ccf77f153b",
+    "ActionKeyword":"m",
+    "Name":"Macros",
+    "Description":"a simple macro app for Wox.",
+    "Author":"benthomasknight",
+    "Version":"1.0.1",
+    "Language":"csharp",
+    "Website":"https://github.com/caoyue/Wox.Plugin.Macros",
+    "ExecuteFileName":"Wox.Plugin.Macros.dll",
+    "IcoPath":"ico\\app.png"
+}

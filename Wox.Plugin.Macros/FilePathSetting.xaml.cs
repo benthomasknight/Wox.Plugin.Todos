@@ -14,7 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Wox.Plugin.Todos
+namespace Wox.Plugin.Macros
 {
     /// <summary>
     /// Interaction logic for FilePathSetting.xaml

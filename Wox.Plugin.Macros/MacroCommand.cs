@@ -1,15 +1,13 @@
 ﻿using System.ComponentModel;
 
-namespace Wox.Plugin.Todos
+namespace Wox.Plugin.Macros
 {
-    public enum TodoCommand
+    public enum MacroCommand
     {
         [Description("List")]
         L,
         [Description("Add")]
         A,
-        [Description("Complete")]
-        C,
         [Description("Remove")]
         R,
         [Description("Help")]

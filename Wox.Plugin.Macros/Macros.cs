@@ -6,28 +6,27 @@ using System.Runtime.InteropServices;
 using System.Windows;
 using Newtonsoft.Json;
 
-namespace Wox.Plugin.Todos
+namespace Wox.Plugin.Macros
 {
-    public class Todo
+    public class Macro
     {
-        public int Id { get; set; }
+        public string Key { get; set; }
         public string Content { get; set; }
-        public bool Completed { get; set; }
         public DateTime CreatedTime { get; set; }
     }
 
-    public class Todos
+    public class Macros
     {
-        private const string DataFileName = @"todos.data.json";
+        private const string DataFileName = @"macros.data.json";
 
         private string _dataFolderPath;
 
-        private List<Todo> _todoList;
+        private List<Macro> _macroList;
         public PluginInitContext Context { get; }
 
         public string ActionKeyword { get; set; }
 
-        public Todos(PluginInitContext context, Settings setting)
+        public Macros(PluginInitContext context, Settings setting)
         {
             Context = context;
 
@@ -41,12 +40,7 @@ namespace Wox.Plugin.Todos
             Load();
         }
 
-        public List<Result> Results => ToResults(_todoList);
-
-        public int MaxId
-        {
-            get { return _todoList != null && _todoList.Any() ? _todoList.Max(t => t.Id) : 0; }
-        }
+        public List<Result> Results => ToResults(_macroList);
 
         public void Reload()
         {
@@ -54,22 +48,21 @@ namespace Wox.Plugin.Todos
         }
 
         public List<Result> Find(
-            Func<Todo, bool> func,
-            Func<Todo, string> subTitleFormatter = null,
-            Func<ActionContext, Todo, bool> itemAction = null)
+            Func<Macro, bool> func,
+            Func<Macro, string> subTitleFormatter = null,
+            Func<ActionContext, Macro, bool> itemAction = null)
         {
-            return ToResults(_todoList.Where(func), subTitleFormatter, itemAction);
+            return ToResults(_macroList.Where(func), subTitleFormatter, itemAction);
         }
 
-        public Todos Add(Todo todo, Action callback = null)
+        public Macros Add(Macro macro, Action callback = null)
         {
-            if (string.IsNullOrEmpty(todo.Content))
+            if (string.IsNullOrEmpty(macro.Content))
             {
                 return this;
             }
-
-            todo.Id = MaxId + 1;
-            _todoList.Add(todo);
+            
+            _macroList.Add(macro);
             Save();
             if (callback == null)
             {
@@ -82,18 +75,18 @@ namespace Wox.Plugin.Todos
             return this;
         }
 
-        public Todos Remove(Todo todo, Action callback = null)
+        public Macros Remove(Macro macro, Action callback = null)
         {
-            var item = _todoList.FirstOrDefault(t => t.Id == todo.Id);
+            var item = _macroList.FirstOrDefault(t => t.Key == macro.Key);
             if (item != null)
             {
-                _todoList.Remove(item);
+                _macroList.Remove(item);
             }
             Save();
             if (callback == null)
             {
                 Context.API.ChangeQuery($"{ActionKeyword} ");
-                Alert("Success", "todo removed!");
+                Alert("Success", "macro removed!");
             }
             else
             {
@@ -102,60 +95,14 @@ namespace Wox.Plugin.Todos
             return this;
         }
 
-        public Todos RemoveAll(Action callback = null)
+        public Macros RemoveAll(Action callback = null)
         {
-            _todoList.RemoveAll(t => true);
+            _macroList.RemoveAll(t => true);
             Save();
             if (callback == null)
             {
                 Context.API.ChangeQuery($"{ActionKeyword} ");
-                Alert("Success", "all todos removed!");
-            }
-            else
-            {
-                callback();
-            }
-            return this;
-        }
-
-        public Todos RemoveAllCompletedTodos(Action callback = null)
-        {
-            _todoList.RemoveAll(t => t.Completed);
-            Save();
-            if (callback == null)
-            {
-                Context.API.ChangeQuery($"{ActionKeyword} ");
-                Alert("Success", "All completed todos removed!");
-            }
-            else
-            {
-                callback();
-            }
-            return this;
-        }
-
-        public Todos Complete(Todo todo, Action callback = null)
-        {
-            var item = _todoList.FirstOrDefault(t => t.Id == todo.Id);
-            if (item != null)
-            {
-                item.Completed = true;
-            }
-            Save();
-            callback?.Invoke();
-            return this;
-        }
-
-        public Todos CompleteAll(Action callback = null)
-        {
-            _todoList.ForEach(t =>
-            {
-                t.Completed = true;
-            });
-            if (callback == null)
-            {
-                Context.API.ChangeQuery($"{ActionKeyword} ");
-                Alert("Success", "all todos done!");
+                Alert("Success", "all macros removed!");
             }
             else
             {
@@ -184,7 +131,7 @@ namespace Wox.Plugin.Todos
             try
             {
                 var text = File.ReadAllText(Path.Combine(_dataFolderPath, DataFileName));
-                _todoList = JsonConvert.DeserializeObject<List<Todo>>(text);
+                _macroList = JsonConvert.DeserializeObject<List<Macro>>(text);
             }
             catch (FileNotFoundException)
             {                
@@ -200,11 +147,11 @@ namespace Wox.Plugin.Todos
         {
             try
             {
-                if (_todoList is null)
+                if (_macroList is null)
                 {
-                    _todoList = new List<Todo>();
+                    _macroList = new List<Macro>();
                 }
-                var json = JsonConvert.SerializeObject(_todoList);
+                var json = JsonConvert.SerializeObject(_macroList);
                 File.WriteAllText(Path.Combine(_dataFolderPath, DataFileName), json);
             }
             catch (Exception e)
@@ -214,18 +161,18 @@ namespace Wox.Plugin.Todos
         }
 
         private List<Result> ToResults(
-            IEnumerable<Todo> todos,
-            Func<Todo, string> subTitleFormatter = null,
-            Func<ActionContext, Todo, bool> itemAction = null)
+            IEnumerable<Macro> macros,
+            Func<Macro, string> subTitleFormatter = null,
+            Func<ActionContext, Macro, bool> itemAction = null)
         {
-            var results = todos.OrderByDescending(t => t.CreatedTime)
+            var results = macros.OrderByDescending(t => t.CreatedTime)
                 .Select(t => new Result
                 {
                     Title = $"{t.Content}",
                     SubTitle = subTitleFormatter == null
                         ? $"{ToRelativeTime(t.CreatedTime)}"
                         : subTitleFormatter(t),
-                    IcoPath = GetFilePath(t.Completed ? @"ico\done.png" : @"ico\todo.png"),
+                    IcoPath = GetFilePath(@"ico\macro.png"),
                     Action = c =>
                     {
                         if (itemAction != null)
@@ -298,6 +245,11 @@ namespace Wox.Plugin.Todos
 
             var years = Convert.ToInt32(Math.Floor((double)ts.Days / 365));
             return years <= 1 ? "one year ago" : years + " years ago";
+        }
+
+        public string getDir()
+        {
+            return Path.Combine(_dataFolderPath, DataFileName);
         }
     }
 }

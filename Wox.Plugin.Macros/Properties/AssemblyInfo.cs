@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Wox.Plugin.Todos")]
+[assembly: AssemblyTitle("Wox.Plugin.Macros")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Wox.Plugin.Todos")]
+[assembly: AssemblyProduct("Wox.Plugin.Macros")]
 [assembly: AssemblyCopyright("Copyright ©  2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("4a4b872d-3698-4900-b179-a009ff1f5c04")]
+[assembly: Guid("af7ec81b-848d-4d9f-a239-a7ccf77f153b")]
 
 // Version information for an assembly consists of the following four values:
 //

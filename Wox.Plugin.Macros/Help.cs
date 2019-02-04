@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.IO;
 
-namespace Wox.Plugin.Todos
+namespace Wox.Plugin.Macros
 {
     public class Help
     {
@@ -24,7 +24,7 @@ namespace Wox.Plugin.Todos
                 return new List<Result> {
                     new Result {
                         Title = $"{_query.ActionKeyword} -a [text]",
-                        SubTitle = "add todos",
+                        SubTitle = "add macros",
                         IcoPath = _iconPath,
                         Action = c => {
                             _context.API.ChangeQuery($"{_query.ActionKeyword} -a ");
@@ -33,7 +33,7 @@ namespace Wox.Plugin.Todos
                     },
                     new Result {
                         Title = $"{_query.ActionKeyword} -rl",
-                        SubTitle = "reload todos from data file",
+                        SubTitle = "reload macros from data file",
                         IcoPath = _iconPath,
                         Action = c => {
                             _context.API.ChangeQuery($"{_query.ActionKeyword} ");
@@ -42,7 +42,7 @@ namespace Wox.Plugin.Todos
                     },
                     new Result {
                         Title = $"{_query.ActionKeyword} [keyword]",
-                        SubTitle = "list todos",
+                        SubTitle = "list macros",
                         IcoPath = _iconPath,
                         Action = c => {
                             _context.API.ChangeQuery($"{_query.ActionKeyword} -l ");
@@ -51,7 +51,7 @@ namespace Wox.Plugin.Todos
                     },
                     new Result {
                         Title = $"{_query.ActionKeyword} -l [keyword]",
-                        SubTitle = "list all todos, inclued completed todos",
+                        SubTitle = "list all macros",
                         IcoPath = _iconPath,
                         Action = c => {
                             _context.API.ChangeQuery($"{_query.ActionKeyword} -l ");
@@ -60,7 +60,7 @@ namespace Wox.Plugin.Todos
                     },
                     new Result {
                         Title = $"{_query.ActionKeyword} -r [keyword]",
-                        SubTitle = "remove todos",
+                        SubTitle = "remove macros",
                         IcoPath = _iconPath,
                         Action = c => {
                             _context.API.ChangeQuery($"{_query.ActionKeyword} -r ");
@@ -69,40 +69,13 @@ namespace Wox.Plugin.Todos
                     },
                     new Result {
                         Title = $"{_query.ActionKeyword} -r --all",
-                        SubTitle = "remove all todos",
+                        SubTitle = "remove all macros",
                         IcoPath = _iconPath,
                         Action = c => {
                             _context.API.ChangeQuery($"{_query.ActionKeyword} -r --all");
                             return false;
                         }
                     },
-                    new Result {
-                        Title = $"{_query.ActionKeyword} -r --done",
-                        SubTitle = "Remove all commpleted todos",
-                        IcoPath = _iconPath,
-                        Action = c => {
-                            _context.API.ChangeQuery($"{_query.ActionKeyword} -r --done");
-                            return false;
-                        }
-                    },
-                    new Result {
-                        Title = $"{_query.ActionKeyword} -c [keyword]",
-                        SubTitle = "mark todo as done",
-                        IcoPath = _iconPath,
-                        Action = c => {
-                            _context.API.ChangeQuery($"{_query.ActionKeyword} -c ");
-                            return false;
-                        }
-                    },
-                    new Result {
-                        Title = $"{_query.ActionKeyword} -c --all",
-                        SubTitle = "mark all todos as done",
-                        IcoPath = _iconPath,
-                        Action = c => {
-                            _context.API.ChangeQuery($"{_query.ActionKeyword} -c --all");
-                            return false;
-                        }
-                    }
                 };
             }
         }
